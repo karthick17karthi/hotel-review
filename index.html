@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Hotel Review</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Hotel Review</h1>
+        <div class="review-form">
+            <textarea id="review" placeholder="Write your review here" maxlength="200"></textarea>
+            <button id="submit">Submit Review</button>
+            <button id="clear">Clear Reviews</button>
+        </div>
+        <div class="counts">
+            <h2>Review Counts</h2>
+            <p id="good-count">Good Reviews: 0</p>
+            <p id="average-count">Average Reviews: 0</p>
+            <p id="bad-count">Bad Reviews: 0</p>
+        </div>
+        <div class="reviews" id="reviews"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
