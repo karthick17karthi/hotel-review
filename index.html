@@ -1,85 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Hotel Review</title>
+<script type="module">
+    // Import Firebase functions for v9 modular syntax
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js";
 
-    <!-- Include Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js"></script> <!-- Firestore SDK -->
-</head>
-<body>
-    <div class="container">
-        <h1>Hotel Review</h1>
-        <div class="review-form">
-            <textarea id="review" placeholder="Write your review here" maxlength="200"></textarea>
-            <button id="submit">Submit Review</button>
-            <button id="clear">Clear Reviews</button>
-        </div>
-        <div class="counts">
-            <h2>Review Counts</h2>
-            <p id="good-count">Good Reviews: 0</p>
-            <p id="average-count">Average Reviews: 0</p>
-            <p id="bad-count">Bad Reviews: 0</p>
-        </div>
-        <div class="reviews" id="reviews"></div>
-    </div>
+    // Your Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyCxCHfCbE-cosAvU9oAEaVtU-bUria5FYc",
+        authDomain: "hotel-reviews-ef6e0.firebaseapp.com",
+        projectId: "hotel-reviews-ef6e0",
+        storageBucket: "hotel-reviews-ef6e0.firebasestorage.app",
+        messagingSenderId: "596063870907",
+        appId: "1:596063870907:web:664665d4cd07448685ee9e",
+        measurementId: "G-PDC6GSGDNW"
+    };
 
-    <!-- Add your Firebase initialization script here -->
-    <script>
-        // Your Firebase configuration object from the Firebase console
-        const firebaseConfig = {
-            apiKey: "AIzaSyCxCHfCbE-cosAvU9oAEaVtU-bUria5FYc",
-            authDomain: "hotel-reviews-ef6e0.firebaseapp.com",
-            projectId: "hotel-reviews-ef6e0",
-            storageBucket: "hotel-reviews-ef6e0.firebasestorage.app",
-            messagingSenderId: "596063870907",
-            appId: "1:596063870907:web:664665d4cd07448685ee9e",
-            measurementId: "G-PDC6GSGDNW"
-        };
+    // Initialize Firebase and Firestore
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore(); // Initialize Firestore
-
-        // Function to add a review to Firestore
-        function addReviewToFirestore(review) {
-            db.collection("reviews").add({
+    async function addReviewToFirestore(review) {
+        try {
+            await addDoc(collection(db, "reviews"), {
                 review: review,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                console.log("Review added to Firestore!");
-            }).catch((error) => {
-                console.error("Error adding review: ", error);
+                timestamp: serverTimestamp()
             });
+            console.log("Review added to Firestore!");
+        } catch (error) {
+            console.error("Error adding review: ", error);
         }
+    }
 
-        // Handling the review submission
-        document.getElementById('submit').addEventListener('click', function() {
-            const reviewInput = document.getElementById('review');
-            const review = reviewInput.value.trim();
+    // Handling the review submission
+    document.getElementById('submit').addEventListener('click', function() {
+        const reviewInput = document.getElementById('review');
+        const review = reviewInput.value.trim();
 
-            if (review) {
-                classifyReview(review); // Assuming you have the review classification function
-                reviewInput.value = ''; // Clear the input after submission
-                updateCounts(); // Update review counts
-                displayReviews(); // Display reviews
-                addReviewToFirestore(review); // Add the review to Firestore
-            }
-        });
-
-        // Handling the clear button
-        document.getElementById('clear').addEventListener('click', function() {
-            goodReviews = [];
-            averageReviews = [];
-            badReviews = [];
+        if (review) {
+            // Assuming you have the review classification, update counts, and display functions
+            classifyReview(review);
+            reviewInput.value = ''; // Clear the input after submission
             updateCounts();
             displayReviews();
-        });
-    </script>
+            addReviewToFirestore(review); // Add the review to Firestore
+        }
+    });
 
-    <script src="script.js"></script> <!-- Your existing script.js file -->
-</body>
-</html>
+    // Handling the clear button
+    document.getElementById('clear').addEventListener('click', function() {
+        goodReviews = [];
+        averageReviews = [];
+        badReviews = [];
+        updateCounts();
+        displayReviews();
+    });
+</script>
