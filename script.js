@@ -1,8 +1,24 @@
-
 let goodReviews = [];
 let averageReviews = [];
 let badReviews = [];
 
+// Load reviews from local storage when the page loads
+window.addEventListener('load', () => {
+    goodReviews = JSON.parse(localStorage.getItem('goodReviews')) || [];
+    averageReviews = JSON.parse(localStorage.getItem('averageReviews')) || [];
+    badReviews = JSON.parse(localStorage.getItem('badReviews')) || [];
+    updateCounts();
+    displayReviews();
+});
+
+// Save reviews to local storage
+function saveToLocalStorage() {
+    localStorage.setItem('goodReviews', JSON.stringify(goodReviews));
+    localStorage.setItem('averageReviews', JSON.stringify(averageReviews));
+    localStorage.setItem('badReviews', JSON.stringify(badReviews));
+}
+
+// Handle review submission
 document.getElementById('submit').addEventListener('click', function() {
     const reviewInput = document.getElementById('review');
     const review = reviewInput.value.trim();
@@ -12,15 +28,18 @@ document.getElementById('submit').addEventListener('click', function() {
         reviewInput.value = ''; // Clear the input after submission
         updateCounts();
         displayReviews();
+        saveToLocalStorage(); // Save reviews to local storage
     }
 });
 
+// Handle clearing reviews
 document.getElementById('clear').addEventListener('click', function() {
     goodReviews = [];
     averageReviews = [];
     badReviews = [];
     updateCounts();
     displayReviews();
+    saveToLocalStorage(); // Clear reviews from local storage
 });
 
 function classifyReview(review) {
@@ -53,6 +72,7 @@ function displayReviews() {
     if (goodReviews.length > 0) {
         goodReviews.forEach(review => {
             const p = document.createElement('p');
+            p.classList.add('good'); // Assign the class for styling
             p.innerText = `Good Review: ${review}`;
             reviewsDiv.appendChild(p);
         });
@@ -61,6 +81,7 @@ function displayReviews() {
     if (averageReviews.length > 0) {
         averageReviews.forEach(review => {
             const p = document.createElement('p');
+            p.classList.add('average'); // Assign the class for styling
             p.innerText = `Average Review: ${review}`;
             reviewsDiv.appendChild(p);
         });
@@ -69,6 +90,7 @@ function displayReviews() {
     if (badReviews.length > 0) {
         badReviews.forEach(review => {
             const p = document.createElement('p');
+            p.classList.add('bad'); // Assign the class for styling
             p.innerText = `Bad Review: ${review}`;
             reviewsDiv.appendChild(p);
         });
