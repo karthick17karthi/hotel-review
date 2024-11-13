@@ -1,4 +1,4 @@
-// Firebase initialization (as you already have it in your HTML)
+// Firebase initialization
 const firebaseConfig = {
     apiKey: "AIzaSyCxCHfCbE-cosAvU9oAEaVtU-bUria5FYc",
     authDomain: "hotel-reviews-ef6e0.firebaseapp.com",
@@ -8,8 +8,12 @@ const firebaseConfig = {
     appId: "1:596063870907:web:664665d4cd07448685ee9e",
     measurementId: "G-PDC6GSGDNW"
 };
+
+// Initialize Firebase and Firestore
 const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore(); // Initialize Firestore
+const db = firebase.firestore();
+
+console.log("Firebase initialized"); // Check Firebase initialization
 
 let goodReviews = [];
 let averageReviews = [];
@@ -17,6 +21,7 @@ let badReviews = [];
 
 // Load reviews from Firebase when the page loads
 window.addEventListener('load', () => {
+    console.log("Page loaded");
     fetchReviewsFromFirestore();
     updateCounts();
     displayReviews();
@@ -30,6 +35,8 @@ function fetchReviewsFromFirestore() {
                 const review = doc.data().review;
                 classifyReview(review);
             });
+            updateCounts();
+            displayReviews();
         })
         .catch((error) => {
             console.error("Error fetching reviews: ", error);
@@ -50,6 +57,7 @@ function addReviewToFirestore(review) {
 
 // Handle review submission
 document.getElementById('submit').addEventListener('click', function () {
+    console.log("Submit button clicked"); // Log submit button click
     const reviewInput = document.getElementById('review');
     const review = reviewInput.value.trim();
 
@@ -59,6 +67,8 @@ document.getElementById('submit').addEventListener('click', function () {
         updateCounts();
         displayReviews();
         addReviewToFirestore(review); // Save to Firestore
+    } else {
+        console.log("No review text entered");
     }
 });
 
@@ -69,7 +79,6 @@ document.getElementById('clear').addEventListener('click', function () {
     badReviews = [];
     updateCounts();
     displayReviews();
-    // Optionally, clear Firestore as well, but this is not part of the original functionality.
 });
 
 // Classify the review based on keywords
@@ -129,3 +138,4 @@ function displayReviews() {
         });
     }
 }
+
