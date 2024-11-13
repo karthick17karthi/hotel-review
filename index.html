@@ -1,55 +1,110 @@
-<script type="module">
-    // Corrected imports for Firebase v9+
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Hotel Review</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Hotel Review</h1>
+        <div class="review-form">
+            <textarea id="review" placeholder="Write your review here" maxlength="200"></textarea>
+            <button id="submit">Submit Review</button>
+            <button id="clear">Clear Reviews</button>
+        </div>
+        <div class="counts">
+            <h2>Review Counts</h2>
+            <p id="good-count">Good Reviews: 0</p>
+            <p id="average-count">Average Reviews: 0</p>
+            <p id="bad-count">Bad Reviews: 0</p>
+        </div>
+        <div class="reviews" id="reviews"></div>
+    </div>
 
-    // Firebase configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyCxCHfCbE-cosAvU9oAEaVtU-bUria5FYc",
-        authDomain: "hotel-reviews-ef6e0.firebaseapp.com",
-        projectId: "hotel-reviews-ef6e0",
-        storageBucket: "hotel-reviews-ef6e0.appspot.com",
-        messagingSenderId: "596063870907",
-        appId: "1:596063870907:web:664665d4cd07448685ee9e",
-        measurementId: "G-PDC6GSGDNW"
-    };
+    <!-- Firebase Initialization as a module -->
+    <script type="module">
+        // Import Firebase and Firestore functions (Named imports)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js";
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
+        // Your Firebase configuration object
+        const firebaseConfig = {
+            apiKey: "AIzaSyCxCHfCbE-cosAvU9oAEaVtU-bUria5FYc",
+            authDomain: "hotel-reviews-ef6e0.firebaseapp.com",
+            projectId: "hotel-reviews-ef6e0",
+            storageBucket: "hotel-reviews-ef6e0.appspot.com",
+            messagingSenderId: "596063870907",
+            appId: "1:596063870907:web:664665d4cd07448685ee9e",
+            measurementId: "G-PDC6GSGDNW"
+        };
 
-    // Initialize Firestore
-    const db = getFirestore(app);
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
 
-    // Add review to Firestore
-    async function addReviewToFirestore(review) {
-        try {
-            await addDoc(collection(db, "reviews"), {
-                review: review,
-                timestamp: serverTimestamp()
-            });
-            console.log("Review added to Firestore!");
-        } catch (error) {
-            console.error("Error adding review to Firestore: ", error);
+        // Initialize Firestore
+        const db = getFirestore(app);
+
+        // Function to add a review to Firestore
+        async function addReviewToFirestore(review) {
+            try {
+                const docRef = await addDoc(collection(db, "reviews"), {
+                    review: review,
+                    timestamp: serverTimestamp()
+                });
+                console.log("Review added with ID: ", docRef.id);
+            } catch (error) {
+                console.error("Error adding review: ", error);
+            }
         }
-    }
 
-    // Submit review
-    document.getElementById('submit').addEventListener('click', function() {
-        const reviewInput = document.getElementById('review');
-        const review = reviewInput.value.trim();
-        if (review) {
-            addReviewToFirestore(review);
-            reviewInput.value = ''; // Clear the input field
-        } else {
-            alert("Please enter a review.");
+        // Handling the review submission
+        document.getElementById('submit').addEventListener('click', function() {
+            const reviewInput = document.getElementById('review');
+            const review = reviewInput.value.trim();
+
+            if (review) {
+                // Function for classifying review (You can implement it as per your logic)
+                classifyReview(review); // Example function, you need to implement
+
+                reviewInput.value = ''; // Clear the input field
+                updateCounts(); // Function to update counts (You need to define it)
+                displayReviews(); // Function to display reviews (You need to define it)
+
+                addReviewToFirestore(review); // Add review to Firestore
+            } else {
+                alert("Please enter a review.");
+            }
+        });
+
+        // Handling the clear button
+        document.getElementById('clear').addEventListener('click', function() {
+            // Clear reviews from Firestore or clear the UI as required
+            document.getElementById('reviews').innerHTML = "";
+            goodReviews = [];
+            averageReviews = [];
+            badReviews = [];
+            updateCounts(); // Function to update counts
+            displayReviews(); // Function to display reviews
+        });
+
+        // Implement your review classification and display logic as needed:
+        function classifyReview(review) {
+            // Your logic for classifying the review (e.g., good, average, bad)
         }
-    });
 
-    // Clear reviews button
-    document.getElementById('clear').addEventListener('click', function() {
-        document.getElementById('reviews').innerHTML = "";
-    });
-</script>
+        function updateCounts() {
+            // Your logic for updating the counts (e.g., good, average, bad reviews)
+        }
+
+        function displayReviews() {
+            // Your logic to display reviews
+        }
+    </script>
+</body>
+</html>
+
 
 
 
