@@ -14,6 +14,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    padding: 20px;
 }
 
 .container {
@@ -46,10 +47,11 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 5px;
     resize: none;
+    margin-bottom: 10px;
 }
 
 button {
-    margin-top: 10px;
+    margin: 5px;
     padding: 10px 20px;
     font-size: 16px;
     border: none;
@@ -93,6 +95,7 @@ button:hover {
     overflow-y: auto;
     border-top: 1px solid #ddd;
     padding-top: 10px;
+    margin-top: 10px;
 }
 
 .reviews p {
@@ -102,4 +105,6 @@ button:hover {
     background-color: #f9f9f9;
     border-radius: 5px;
     border: 1px solid #e0e0e0;
+    word-wrap: break-word;
 }
+
