@@ -101,9 +101,9 @@ function classifyReview(review) {
 
 // Update the review counts
 function updateCounts() {
-    document.getElementById('good-count').innerText = `Good Reviews: ${goodReviews.length}`;
-    document.getElementById('average-count').innerText = `Average Reviews: ${averageReviews.length}`;
-    document.getElementById('bad-count').innerText = `Bad Reviews: ${badReviews.length}`;
+    document.getElementById('good-count').innerText = Good Reviews: ${goodReviews.length};
+    document.getElementById('average-count').innerText = Average Reviews: ${averageReviews.length};
+    document.getElementById('bad-count').innerText = Bad Reviews: ${badReviews.length};
 }
 
 // Display reviews on the page
@@ -115,7 +115,7 @@ function displayReviews() {
         goodReviews.forEach(review => {
             const p = document.createElement('p');
             p.classList.add('good');
-            p.innerText = `Good Review: ${review}`;
+            p.innerText = Good Review: ${review};
             reviewsDiv.appendChild(p);
         });
     }
@@ -124,7 +124,7 @@ function displayReviews() {
         averageReviews.forEach(review => {
             const p = document.createElement('p');
             p.classList.add('average');
-            p.innerText = `Average Review: ${review}`;
+            p.innerText = Average Review: ${review};
             reviewsDiv.appendChild(p);
         });
     }
@@ -133,9 +133,8 @@ function displayReviews() {
         badReviews.forEach(review => {
             const p = document.createElement('p');
             p.classList.add('bad');
-            p.innerText = `Bad Review: ${review}`;
+            p.innerText = Bad Review: ${review};
             reviewsDiv.appendChild(p);
         });
     }
 }
-
