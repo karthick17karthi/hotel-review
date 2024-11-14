@@ -3,31 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Hotel Review</title>
+    <title>Hotel Reviews</title>
+    <style>
+        /* Styling for different types of reviews */
+        .good { color: green; }
+        .average { color: orange; }
+        .bad { color: red; }
+        .count { font-weight: bold; margin: 10px 0; }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Hotel Review</h1>
-        <div class="review-form">
-            <textarea id="review" placeholder="Write your review here" maxlength="200"></textarea>
-            <button id="submit">Submit Review</button>
-            <button id="clear">Clear Reviews</button>
-        </div>
-        <div class="counts">
-            <h2>Review Counts</h2>
-            <p id="good-count">Good Reviews: 0</p>
-            <p id="average-count">Average Reviews: 0</p>
-            <p id="bad-count">Bad Reviews: 0</p>
-        </div>
-        <div class="reviews" id="reviews"></div>
+
+    <h1>Hotel Reviews</h1>
+
+    <!-- Review input field and buttons -->
+    <div>
+        <textarea id="review" placeholder="Write your review here..." rows="4" cols="50"></textarea>
+        <br>
+        <button id="submit">Submit Review</button>
+        <button id="clear">Clear Reviews</button>
     </div>
 
-    <script type="module">
-        // Import Firebase and Firestore functions
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js";
+    <!-- Display counts for each review type -->
+    <div id="counts">
+        <p id="good-count" class="count">Good Reviews: 0</p>
+        <p id="average-count" class="count">Average Reviews: 0</p>
+        <p id="bad-count" class="count">Bad Reviews: 0</p>
+    </div>
 
+    <!-- Container for displaying all reviews -->
+    <div id="reviews">
+        <h2>Customer Reviews:</h2>
+    </div>
+
+    <!-- Firebase Configuration and Initialization -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script>
         // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCxCHfCbE-cosAvU9oAEaVtU-bUria5FYc",
@@ -40,76 +52,135 @@
         };
 
         // Initialize Firebase and Firestore
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-        // Function to add a review to Firestore
-        async function addReviewToFirestore(review) {
-            try {
-                await addDoc(collection(db, "reviews"), {
-                    review: review,
-                    timestamp: serverTimestamp()
+        console.log("Firebase initialized");
+
+        let goodReviews = [];
+        let averageReviews = [];
+        let badReviews = [];
+
+        // Load reviews from Firebase when the page loads
+        window.addEventListener('load', () => {
+            console.log("Page loaded");
+            fetchReviewsFromFirestore();
+        });
+
+        // Fetch reviews from Firestore
+        function fetchReviewsFromFirestore() {
+            db.collection("reviews").orderBy("timestamp", "desc").get()
+                .then((querySnapshot) => {
+                    goodReviews = [];
+                    averageReviews = [];
+                    badReviews = [];
+                    querySnapshot.forEach((doc) => {
+                        const review = doc.data().review;
+                        classifyReview(review);
+                    });
+                    updateCounts();
+                    displayReviews();
+                })
+                .catch((error) => {
+                    console.error("Error fetching reviews: ", error);
                 });
-                console.log("Review added successfully!");
-                fetchReviews(); // Refresh the displayed reviews after adding a new one
-            } catch (error) {
-                console.error("Error adding review: ", error);
-            }
         }
 
-        // Function to fetch and display reviews from Firestore
-        async function fetchReviews() {
-            const querySnapshot = await getDocs(collection(db, "reviews"));
-            const reviewsContainer = document.getElementById('reviews');
-            reviewsContainer.innerHTML = ''; // Clear current reviews
-
-            let goodCount = 0, averageCount = 0, badCount = 0;
-
-            querySnapshot.forEach((doc) => {
-                const reviewData = doc.data().review;
-                const reviewElement = document.createElement('p');
-                reviewElement.textContent = reviewData;
-                reviewsContainer.appendChild(reviewElement);
-
-                // Classify each review and update counts
-                if (reviewData.toLowerCase().includes("good")) {
-                    goodCount++;
-                } else if (reviewData.toLowerCase().includes("average")) {
-                    averageCount++;
-                } else {
-                    badCount++;
-                }
+        // Save review to Firebase Firestore
+        function addReviewToFirestore(review) {
+            db.collection("reviews").add({
+                review: review,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                console.log("Review added to Firestore!");
+                fetchReviewsFromFirestore(); // Refresh reviews after adding new one
+            }).catch((error) => {
+                console.error("Error adding review to Firestore: ", error);
             });
-
-            // Update counts in the UI
-            document.getElementById('good-count').textContent = Good Reviews: ${goodCount};
-            document.getElementById('average-count').textContent = Average Reviews: ${averageCount};
-            document.getElementById('bad-count').textContent = Bad Reviews: ${badCount};
         }
 
-        // Handling the review submission
-        document.getElementById('submit').addEventListener('click', function() {
+        // Handle review submission
+        document.getElementById('submit').addEventListener('click', function () {
+            console.log("Submit button clicked");
             const reviewInput = document.getElementById('review');
             const review = reviewInput.value.trim();
 
             if (review) {
-                addReviewToFirestore(review); // Add review to Firestore
-                reviewInput.value = ''; // Clear the input field
+                classifyReview(review);
+                reviewInput.value = ''; // Clear the input after submission
+                addReviewToFirestore(review); // Save to Firestore
             } else {
                 alert("Please enter a review.");
             }
         });
 
-        // Handling the clear button
-        document.getElementById('clear').addEventListener('click', function() {
-            document.getElementById('reviews').innerHTML = "";
-            document.getElementById('good-count').textContent = "Good Reviews: 0";
-            document.getElementById('average-count').textContent = "Average Reviews: 0";
-            document.getElementById('bad-count').textContent = "Bad Reviews: 0";
+        // Handle clearing reviews
+        document.getElementById('clear').addEventListener('click', function () {
+            goodReviews = [];
+            averageReviews = [];
+            badReviews = [];
+            updateCounts();
+            displayReviews();
         });
 
-        // Load and display reviews on page load
-        fetchReviews();
+        // Classify the review based on keywords
+        function classifyReview(review) {
+            const reviewLower = review.toLowerCase();
+            const goodKeywords = ["amazing", "excellent", "fantastic", "great", "love", "delicious", "perfect", "fresh"];
+            const averageKeywords = ["okay", "decent", "average", "fine", "acceptable", "ordinary"];
+            const badKeywords = ["bad", "horrible", "terrible", "disappointing", "rude", "dirty", "slow"];
+
+            if (goodKeywords.some(word => reviewLower.includes(word))) {
+                goodReviews.push(review);
+            } else if (averageKeywords.some(word => reviewLower.includes(word))) {
+                averageReviews.push(review);
+            } else if (badKeywords.some(word => reviewLower.includes(word))) {
+                badReviews.push(review);
+            } else {
+                averageReviews.push(review); // Default to average if no keywords match
+            }
+        }
+
+        // Update the review counts
+        function updateCounts() {
+            document.getElementById('good-count').innerText = `Good Reviews: ${goodReviews.length}`;
+            document.getElementById('average-count').innerText = `Average Reviews: ${averageReviews.length}`;
+            document.getElementById('bad-count').innerText = `Bad Reviews: ${badReviews.length}`;
+        }
+
+        // Display reviews on the page
+        function displayReviews() {
+            const reviewsDiv = document.getElementById('reviews');
+            reviewsDiv.innerHTML = ''; // Clear previous reviews
+
+            if (goodReviews.length > 0) {
+                goodReviews.forEach(review => {
+                    const p = document.createElement('p');
+                    p.classList.add('good');
+                    p.innerText = `Good Review: ${review}`;
+                    reviewsDiv.appendChild(p);
+                });
+            }
+
+            if (averageReviews.length > 0) {
+                averageReviews.forEach(review => {
+                    const p = document.createElement('p');
+                    p.classList.add('average');
+                    p.innerText = `Average Review: ${review}`;
+                    reviewsDiv.appendChild(p);
+                });
+            }
+
+            if (badReviews.length > 0) {
+                badReviews.forEach(review => {
+                    const p = document.createElement('p');
+                    p.classList.add('bad');
+                    p.innerText = `Bad Review: ${review}`;
+                    reviewsDiv.appendChild(p);
+                });
+            }
+        }
     </script>
+
 </body>
-</html>  
+</html>
