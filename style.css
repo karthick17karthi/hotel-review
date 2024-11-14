@@ -1,110 +1,100 @@
-/* style.css */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* General Styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #f4f4f9;
     color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    margin: 0;
     padding: 20px;
-}
-
-.container {
-    max-width: 600px;
-    width: 100%;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
 }
 
 h1 {
-    text-align: center;
     color: #333;
-    margin-bottom: 20px;
+    text-align: center;
 }
 
-.review-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
+h2 {
+    color: #555;
+    margin-bottom: 10px;
 }
 
 textarea {
     width: 100%;
-    height: 100px;
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    resize: none;
-    margin-bottom: 10px;
+    resize: vertical;
 }
 
 button {
-    margin: 5px;
     padding: 10px 20px;
     font-size: 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    color: #fff;
-    background-color: #007bff;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-#clear {
-    background-color: #dc3545;
-}
-
-#clear:hover {
-    background-color: #a71d2a;
-}
-
-.counts {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.counts h2 {
-    font-size: 20px;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.counts p {
-    font-size: 16px;
-    margin: 5px 0;
-}
-
-.reviews {
-    max-height: 200px;
-    overflow-y: auto;
-    border-top: 1px solid #ddd;
-    padding-top: 10px;
     margin-top: 10px;
 }
 
-.reviews p {
-    font-size: 14px;
-    margin: 8px 0;
-    padding: 10px;
+/* Button Colors */
+#submit {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#clear {
+    background-color: #f44336;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* Review Counts */
+#counts {
+    margin: 20px 0;
+    font-weight: bold;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.count {
+    font-size: 18px;
+}
+
+/* Review Types */
+.good {
+    color: #4CAF50;
+    border-left: 4px solid #4CAF50;
+    padding-left: 10px;
+    margin: 5px 0;
+}
+
+.average {
+    color: #ff9800;
+    border-left: 4px solid #ff9800;
+    padding-left: 10px;
+    margin: 5px 0;
+}
+
+.bad {
+    color: #f44336;
+    border-left: 4px solid #f44336;
+    padding-left: 10px;
+    margin: 5px 0;
+}
+
+/* Reviews Section */
+#reviews {
+    margin-top: 20px;
+}
+
+#reviews p {
+    padding: 8px;
     background-color: #f9f9f9;
     border-radius: 5px;
-    border: 1px solid #e0e0e0;
-    word-wrap: break-word;
+    font-size: 16px;
+    margin-bottom: 8px;
 }
 
