@@ -1,122 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Hotel Review</title>
-    <style>
-        /* General styles */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .container {
-            width: 80%;
-            max-width: 900px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        /* Review form styles */
-        .review-form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        #review {
-            width: 100%;
-            height: 120px;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            resize: none;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        /* Counts section */
-        .counts {
-            margin: 20px 0;
-        }
-
-        .counts h2 {
-            text-align: center;
-            color: #333;
-        }
-
-        .counts p {
-            font-size: 18px;
-            margin: 5px 0;
-        }
-
-        /* Reviews sections */
-        .reviews {
-            margin-top: 20px;
-        }
-
-        .reviews > div {
-            margin-bottom: 20px;
-        }
-
-        .reviews h3 {
-            background-color: #f0f0f0;
-            padding: 10px;
-            text-align: center;
-            font-size: 20px;
-            color: #333;
-            border-radius: 6px;
-        }
-
-        .reviews p {
-            background-color: #f9f9f9;
-            padding: 10px;
-            border-radius: 4px;
-            margin: 5px 0;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Button for clearing reviews */
-        #clear {
-            background-color: #f44336;
-            color: white;
-        }
-
-        #clear:hover {
-            background-color: #e53935;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -177,42 +66,26 @@
 
             let goodCount = 0, averageCount = 0, badCount = 0;
 
-            // Create containers for good, average, and bad reviews
-            const goodReviewsContainer = document.createElement('div');
-            const averageReviewsContainer = document.createElement('div');
-            const badReviewsContainer = document.createElement('div');
-
-            goodReviewsContainer.innerHTML = '<h3>Good Reviews</h3>';
-            averageReviewsContainer.innerHTML = '<h3>Average Reviews</h3>';
-            badReviewsContainer.innerHTML = '<h3>Bad Reviews</h3>';
-
             querySnapshot.forEach((doc) => {
                 const reviewData = doc.data().review;
                 const reviewElement = document.createElement('p');
                 reviewElement.textContent = reviewData;
+                reviewsContainer.appendChild(reviewElement);
 
-                // Classify each review and append it to the appropriate container
+                // Classify each review and update counts
                 if (reviewData.toLowerCase().includes("good")) {
                     goodCount++;
-                    goodReviewsContainer.appendChild(reviewElement);
                 } else if (reviewData.toLowerCase().includes("average")) {
                     averageCount++;
-                    averageReviewsContainer.appendChild(reviewElement);
                 } else {
                     badCount++;
-                    badReviewsContainer.appendChild(reviewElement);
                 }
             });
 
-            // Append categorized reviews to the main container
-            reviewsContainer.appendChild(goodReviewsContainer);
-            reviewsContainer.appendChild(averageReviewsContainer);
-            reviewsContainer.appendChild(badReviewsContainer);
-
             // Update counts in the UI
-            document.getElementById('good-count').textContent = `Good Reviews: ${goodCount}`;
-            document.getElementById('average-count').textContent = `Average Reviews: ${averageCount}`;
-            document.getElementById('bad-count').textContent = `Bad Reviews: ${badCount}`;
+            document.getElementById('good-count').textContent = Good Reviews: ${goodCount};
+            document.getElementById('average-count').textContent = Average Reviews: ${averageCount};
+            document.getElementById('bad-count').textContent = Bad Reviews: ${badCount};
         }
 
         // Handling the review submission
@@ -241,4 +114,3 @@
     </script>
 </body>
 </html>
-
