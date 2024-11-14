@@ -1,115 +1,130 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Hotel Review</title>
-</head>
-<body>
-    <div class="container">
-        <h1>Hotel Review</h1>
-        <div class="review-form">
-            <textarea id="review" placeholder="Write your review here" maxlength="200"></textarea>
-            <button id="submit">Submit Review</button>
-            <button id="clear">Clear Reviews</button>
-        </div>
-        <div class="counts">
-            <h2>Review Counts</h2>
-            <p id="good-count">Good Reviews: 0</p>
-            <p id="average-count">Average Reviews: 0</p>
-            <p id="bad-count">Bad Reviews: 0</p>
-        </div>
-        <div class="reviews" id="reviews"></div>
-    </div>
+/* style.css */
 
-    <script type="module">
-        // Import Firebase and Firestore functions
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js";
+/* Ensure html and body take up the full height of the screen */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f9;
+    font-family: Arial, sans-serif;
+}
 
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCxCHfCbE-cosAvU9oAEaVtU-bUria5FYc",
-            authDomain: "hotel-reviews-ef6e0.firebaseapp.com",
-            projectId: "hotel-reviews-ef6e0",
-            storageBucket: "hotel-reviews-ef6e0.appspot.com",
-            messagingSenderId: "596063870907",
-            appId: "1:596063870907:web:664665d4cd07448685ee9e",
-            measurementId: "G-PDC6GSGDNW"
-        };
+/* Full screen container to center the content and make it fill the screen */
+.container {
+    width: 90%; /* Increase width to 90% of the screen size */
+    max-width: 1400px;  /* Set a max width to ensure content doesn't get too wide on large screens */
+    padding: 40px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    text-align: center;
+    height: 100vh;  /* Full height of the screen */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: auto;  /* Allow scrolling if content overflows */
+}
 
-        // Initialize Firebase and Firestore
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+/* Headings styling */
+h1 {
+    color: #333;
+    font-size: 3em; /* Larger font size */
+    margin-bottom: 20px;
+}
 
-        // Function to add a review to Firestore
-        async function addReviewToFirestore(review) {
-            try {
-                await addDoc(collection(db, "reviews"), {
-                    review: review,
-                    timestamp: serverTimestamp()
-                });
-                console.log("Review added successfully!");
-                fetchReviews(); // Refresh the displayed reviews after adding a new one
-            } catch (error) {
-                console.error("Error adding review: ", error);
-            }
-        }
+/* Review form styling */
+.review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Increased space between items */
+    margin-bottom: 20px;
+}
 
-        // Function to fetch and display reviews from Firestore
-        async function fetchReviews() {
-            const querySnapshot = await getDocs(collection(db, "reviews"));
-            const reviewsContainer = document.getElementById('reviews');
-            reviewsContainer.innerHTML = ''; // Clear current reviews
+.review-form textarea {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2em; /* Larger font size */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+    height: 120px;
+}
 
-            let goodCount = 0, averageCount = 0, badCount = 0;
+.review-form button {
+    padding: 15px;
+    font-size: 1.2em; /* Larger font size */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 250px; /* Increased width for buttons */
+    margin: 0 auto;
+}
 
-            querySnapshot.forEach((doc) => {
-                const reviewData = doc.data().review;
-                const reviewElement = document.createElement('p');
-                reviewElement.textContent = reviewData;
-                reviewsContainer.appendChild(reviewElement);
+#submit {
+    background-color: #4CAF50;
+    color: white;
+}
 
-                // Classify each review and update counts
-                if (reviewData.toLowerCase().includes("good")) {
-                    goodCount++;
-                } else if (reviewData.toLowerCase().includes("average")) {
-                    averageCount++;
-                } else {
-                    badCount++;
-                }
-            });
+#clear {
+    background-color: #d9534f;
+    color: white;
+}
 
-            // Update counts in the UI
-            document.getElementById('good-count').textContent = Good Reviews: ${goodCount};
-            document.getElementById('average-count').textContent = Average Reviews: ${averageCount};
-            document.getElementById('bad-count').textContent = Bad Reviews: ${badCount};
-        }
+.review-form button:hover {
+    opacity: 0.9;
+}
 
-        // Handling the review submission
-        document.getElementById('submit').addEventListener('click', function() {
-            const reviewInput = document.getElementById('review');
-            const review = reviewInput.value.trim();
+/* Review counts styling */
+.counts {
+    margin: 30px 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1.2em; /* Larger font size */
+}
 
-            if (review) {
-                addReviewToFirestore(review); // Add review to Firestore
-                reviewInput.value = ''; // Clear the input field
-            } else {
-                alert("Please enter a review.");
-            }
-        });
+.counts h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #555;
+}
 
-        // Handling the clear button
-        document.getElementById('clear').addEventListener('click', function() {
-            document.getElementById('reviews').innerHTML = "";
-            document.getElementById('good-count').textContent = "Good Reviews: 0";
-            document.getElementById('average-count').textContent = "Average Reviews: 0";
-            document.getElementById('bad-count').textContent = "Bad Reviews: 0";
-        });
+.counts p {
+    margin: 10px 0;
+    color: #666;
+}
 
-        // Load and display reviews on page load
-        fetchReviews();
-    </script>
-</body>
-</html>
+/* Reviews section styling */
+.reviews {
+    margin-top: 30px;
+    padding: 20px;
+    border-top: 1px solid #e0e0e0;
+    text-align: left;
+    max-height: 400px;  /* Limit the reviews container height */
+    overflow-y: auto;   /* Allow scrolling for reviews */
+    font-size: 1.2em; /* Larger font size for review text */
+}
+
+/* Review styles based on classification */
+.reviews .good {
+    background-color: #e6ffe6;
+    border-left: 5px solid #4CAF50;
+    color: #2e7d32;
+}
+
+.reviews .average {
+    background-color: #fff9e6;
+    border-left: 5px solid #ffc107;
+    color: #b8860b;
+}
+
+.reviews .bad {
+    background-color: #ffe6e6;
+    border-left: 5px solid #d9534f;
+    color: #a94442;
+}
