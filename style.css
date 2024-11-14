@@ -1,6 +1,5 @@
 /* style.css */
 
-/* Basic reset */
 * {
     margin: 0;
     padding: 0;
@@ -9,81 +8,77 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    background-color: #f4f4f4;
     color: #333;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     min-height: 100vh;
 }
 
 .container {
-    width: 90%;
     max-width: 600px;
-    background-color: #fff;
+    width: 100%;
     padding: 20px;
-    border-radius: 8px;
+    background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
 h1 {
     text-align: center;
-    font-size: 24px;
-    color: #4CAF50;
+    color: #333;
     margin-bottom: 20px;
 }
 
 .review-form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
     margin-bottom: 20px;
 }
 
 textarea {
     width: 100%;
-    min-height: 100px;
+    height: 100px;
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    resize: vertical;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
 }
 
 button {
-    padding: 10px;
+    margin-top: 10px;
+    padding: 10px 20px;
     font-size: 16px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
+    color: #fff;
+    background-color: #007bff;
     transition: background-color 0.3s ease;
 }
 
-#submit {
-    background-color: #4CAF50;
-    color: #fff;
-}
-
-#submit:hover {
-    background-color: #45a049;
+button:hover {
+    background-color: #0056b3;
 }
 
 #clear {
-    background-color: #f44336;
-    color: #fff;
+    background-color: #dc3545;
 }
 
 #clear:hover {
-    background-color: #e53935;
+    background-color: #a71d2a;
 }
 
 .counts {
-    margin-bottom: 20px;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .counts h2 {
-    font-size: 18px;
+    font-size: 20px;
     color: #333;
     margin-bottom: 10px;
 }
@@ -94,15 +89,17 @@ button {
 }
 
 .reviews {
+    max-height: 200px;
+    overflow-y: auto;
     border-top: 1px solid #ddd;
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 .reviews p {
-    font-size: 15px;
-    background-color: #f9f9f9;
+    font-size: 14px;
+    margin: 8px 0;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
 }
