@@ -1,6 +1,6 @@
 /* style.css */
 
-/* Ensure the body and html take up the full height */
+/* Ensure html and body take up the full height of the screen */
 html, body {
     height: 100%;
     margin: 0;
@@ -12,16 +12,20 @@ html, body {
     font-family: Arial, sans-serif;
 }
 
+/* Full screen container to center the content */
 .container {
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
     padding: 20px;
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     text-align: center;
-    height: 90%;  /* Ensure container takes most of the page */
-    overflow-y: auto;  /* Allow scrolling if content is too long */
+    min-height: 70%;  /* Ensure container takes up most of the page */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: auto;  /* Allow scrolling if content overflows */
 }
 
 /* Headings styling */
@@ -30,6 +34,7 @@ h1 {
     margin-bottom: 20px;
 }
 
+/* Review form styling */
 .review-form {
     display: flex;
     flex-direction: column;
@@ -37,16 +42,12 @@ h1 {
     margin-bottom: 20px;
 }
 
-.review-form input[type="text"],
 .review-form textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1em;
-}
-
-.review-form textarea {
     resize: none;
     height: 80px;
 }
@@ -100,31 +101,23 @@ h1 {
     padding: 10px;
     border-top: 1px solid #e0e0e0;
     text-align: left;
-    max-height: 200px;  /* Limit the reviews container height */
+    max-height: 300px;  /* Limit the reviews container height */
     overflow-y: auto;   /* Allow scrolling for reviews */
 }
 
-.reviews .review {
-    padding: 8px;
-    margin: 5px 0;
-    border-radius: 4px;
-}
-
-/* Style for Good Reviews */
+/* Review styles based on classification */
 .reviews .good {
     background-color: #e6ffe6;
     border-left: 5px solid #4CAF50;
     color: #2e7d32;
 }
 
-/* Style for Average Reviews */
 .reviews .average {
     background-color: #fff9e6;
     border-left: 5px solid #ffc107;
     color: #b8860b;
 }
 
-/* Style for Bad Reviews */
 .reviews .bad {
     background-color: #ffe6e6;
     border-left: 5px solid #d9534f;
