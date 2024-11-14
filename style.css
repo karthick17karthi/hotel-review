@@ -12,7 +12,7 @@ html, body {
     font-family: Arial, sans-serif;
 }
 
-/* Full screen container to center the content */
+/* Full screen container to center the content and make it fill the screen */
 .container {
     width: 100%;
     max-width: 800px;
@@ -21,7 +21,7 @@ html, body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     text-align: center;
-    min-height: 70%;  /* Ensure container takes up most of the page */
+    height: 90vh;  /* 90% of the screen height */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -123,5 +123,6 @@ h1 {
     border-left: 5px solid #d9534f;
     color: #a94442;
 }
+
 
 
