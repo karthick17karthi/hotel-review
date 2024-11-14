@@ -1,25 +1,30 @@
 /* style.css */
 
-body {
-    font-family: Arial, sans-serif;
+/* Ensure the body and html take up the full height */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
     background-color: #f4f4f9;
+    font-family: Arial, sans-serif;
 }
 
 .container {
-    width: 90%;
+    width: 100%;
     max-width: 600px;
     padding: 20px;
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     text-align: center;
+    height: 90%;  /* Ensure container takes most of the page */
+    overflow-y: auto;  /* Allow scrolling if content is too long */
 }
 
+/* Headings styling */
 h1 {
     color: #333;
     margin-bottom: 20px;
@@ -69,6 +74,7 @@ h1 {
     opacity: 0.9;
 }
 
+/* Review counts styling */
 .counts {
     margin: 20px 0;
     padding: 10px;
@@ -88,22 +94,41 @@ h1 {
     color: #666;
 }
 
+/* Reviews section styling */
 .reviews {
     margin-top: 20px;
     padding: 10px;
     border-top: 1px solid #e0e0e0;
     text-align: left;
+    max-height: 200px;  /* Limit the reviews container height */
+    overflow-y: auto;   /* Allow scrolling for reviews */
 }
 
-.reviews p {
+.reviews .review {
     padding: 8px;
     margin: 5px 0;
     border-radius: 4px;
-    background-color: #f1f1f1;
 }
 
-.reviews p:nth-child(odd) {
-    background-color: #e9e9e9;
+/* Style for Good Reviews */
+.reviews .good {
+    background-color: #e6ffe6;
+    border-left: 5px solid #4CAF50;
+    color: #2e7d32;
+}
+
+/* Style for Average Reviews */
+.reviews .average {
+    background-color: #fff9e6;
+    border-left: 5px solid #ffc107;
+    color: #b8860b;
+}
+
+/* Style for Bad Reviews */
+.reviews .bad {
+    background-color: #ffe6e6;
+    border-left: 5px solid #d9534f;
+    color: #a94442;
 }
 
 
