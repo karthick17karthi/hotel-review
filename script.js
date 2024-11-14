@@ -1,4 +1,4 @@
-// Firebase configuration
+// Firebase initialization
 const firebaseConfig = {
     apiKey: "AIzaSyCxCHfCbE-cosAvU9oAEaVtU-bUria5FYc",
     authDomain: "hotel-reviews-ef6e0.firebaseapp.com",
@@ -10,7 +10,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase and Firestore
-firebase.initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 console.log("Firebase initialized"); // Check Firebase initialization
@@ -23,6 +23,8 @@ let badReviews = [];
 window.addEventListener('load', () => {
     console.log("Page loaded");
     fetchReviewsFromFirestore();
+    updateCounts();
+    displayReviews();
 });
 
 // Fetch reviews from Firestore
@@ -48,7 +50,6 @@ function addReviewToFirestore(review) {
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
     }).then(() => {
         console.log("Review added to Firestore!");
-        fetchReviewsFromFirestore(); // Refresh reviews after adding new one
     }).catch((error) => {
         console.error("Error adding review to Firestore: ", error);
     });
@@ -63,9 +64,11 @@ document.getElementById('submit').addEventListener('click', function () {
     if (review) {
         classifyReview(review);
         reviewInput.value = ''; // Clear the input after submission
+        updateCounts();
+        displayReviews();
         addReviewToFirestore(review); // Save to Firestore
     } else {
-        alert("Please enter a review."); // Alert if no review text
+        console.log("No review text entered");
     }
 });
 
@@ -135,4 +138,3 @@ function displayReviews() {
         });
     }
 }
-
