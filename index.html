@@ -23,13 +23,12 @@
         <div class="reviews" id="reviews"></div>
     </div>
 
-    <!-- Firebase Initialization as a module -->
     <script type="module">
-        // Import Firebase and Firestore functions (Named imports)
+        // Import Firebase and Firestore functions
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js";
 
-        // Your Firebase configuration object
+        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCxCHfCbE-cosAvU9oAEaVtU-bUria5FYc",
             authDomain: "hotel-reviews-ef6e0.firebaseapp.com",
@@ -40,23 +39,52 @@
             measurementId: "G-PDC6GSGDNW"
         };
 
-        // Initialize Firebase
+        // Initialize Firebase and Firestore
         const app = initializeApp(firebaseConfig);
-
-        // Initialize Firestore
         const db = getFirestore(app);
 
         // Function to add a review to Firestore
         async function addReviewToFirestore(review) {
             try {
-                const docRef = await addDoc(collection(db, "reviews"), {
+                await addDoc(collection(db, "reviews"), {
                     review: review,
                     timestamp: serverTimestamp()
                 });
-                console.log("Review added with ID: ", docRef.id);
+                console.log("Review added successfully!");
+                fetchReviews(); // Refresh the displayed reviews after adding a new one
             } catch (error) {
                 console.error("Error adding review: ", error);
             }
+        }
+
+        // Function to fetch and display reviews from Firestore
+        async function fetchReviews() {
+            const querySnapshot = await getDocs(collection(db, "reviews"));
+            const reviewsContainer = document.getElementById('reviews');
+            reviewsContainer.innerHTML = ''; // Clear current reviews
+
+            let goodCount = 0, averageCount = 0, badCount = 0;
+
+            querySnapshot.forEach((doc) => {
+                const reviewData = doc.data().review;
+                const reviewElement = document.createElement('p');
+                reviewElement.textContent = reviewData;
+                reviewsContainer.appendChild(reviewElement);
+
+                // Classify each review and update counts
+                if (reviewData.toLowerCase().includes("good")) {
+                    goodCount++;
+                } else if (reviewData.toLowerCase().includes("average")) {
+                    averageCount++;
+                } else {
+                    badCount++;
+                }
+            });
+
+            // Update counts in the UI
+            document.getElementById('good-count').textContent = `Good Reviews: ${goodCount}`;
+            document.getElementById('average-count').textContent = `Average Reviews: ${averageCount}`;
+            document.getElementById('bad-count').textContent = `Bad Reviews: ${badCount}`;
         }
 
         // Handling the review submission
@@ -65,14 +93,8 @@
             const review = reviewInput.value.trim();
 
             if (review) {
-                // Function for classifying review (You can implement it as per your logic)
-                classifyReview(review); // Example function, you need to implement
-
-                reviewInput.value = ''; // Clear the input field
-                updateCounts(); // Function to update counts (You need to define it)
-                displayReviews(); // Function to display reviews (You need to define it)
-
                 addReviewToFirestore(review); // Add review to Firestore
+                reviewInput.value = ''; // Clear the input field
             } else {
                 alert("Please enter a review.");
             }
@@ -80,30 +102,18 @@
 
         // Handling the clear button
         document.getElementById('clear').addEventListener('click', function() {
-            // Clear reviews from Firestore or clear the UI as required
             document.getElementById('reviews').innerHTML = "";
-            goodReviews = [];
-            averageReviews = [];
-            badReviews = [];
-            updateCounts(); // Function to update counts
-            displayReviews(); // Function to display reviews
+            document.getElementById('good-count').textContent = "Good Reviews: 0";
+            document.getElementById('average-count').textContent = "Average Reviews: 0";
+            document.getElementById('bad-count').textContent = "Bad Reviews: 0";
         });
 
-        // Implement your review classification and display logic as needed:
-        function classifyReview(review) {
-            // Your logic for classifying the review (e.g., good, average, bad)
-        }
-
-        function updateCounts() {
-            // Your logic for updating the counts (e.g., good, average, bad reviews)
-        }
-
-        function displayReviews() {
-            // Your logic to display reviews
-        }
+        // Load and display reviews on page load
+        fetchReviews();
     </script>
 </body>
 </html>
+
 
 
 
