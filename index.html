@@ -10,7 +10,6 @@
     <div class="container">
         <h1>Hotel Review</h1>
         <div class="review-form">
-            <input type="text" id="name" placeholder="Enter your name" maxlength="50">
             <textarea id="review" placeholder="Write your review here" maxlength="200"></textarea>
             <button id="submit">Submit Review</button>
             <button id="clear">Clear Reviews</button>
@@ -25,9 +24,11 @@
     </div>
 
     <script type="module">
+        // Import Firebase and Firestore functions
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js";
 
+        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCxCHfCbE-cosAvU9oAEaVtU-bUria5FYc",
             authDomain: "hotel-reviews-ef6e0.firebaseapp.com",
@@ -38,14 +39,14 @@
             measurementId: "G-PDC6GSGDNW"
         };
 
+        // Initialize Firebase and Firestore
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
         // Function to add a review to Firestore
-        async function addReviewToFirestore(name, review) {
+        async function addReviewToFirestore(review) {
             try {
                 await addDoc(collection(db, "reviews"), {
-                    name: name,
                     review: review,
                     timestamp: serverTimestamp()
                 });
@@ -65,39 +66,35 @@
             let goodCount = 0, averageCount = 0, badCount = 0;
 
             querySnapshot.forEach((doc) => {
-                const reviewData = doc.data();
-                const reviewText = reviewData.review;
-                const reviewName = reviewData.name || "Anonymous";
-
+                const reviewData = doc.data().review;
                 const reviewElement = document.createElement('p');
-                reviewElement.textContent = `${reviewName}: ${reviewText}`;
+                reviewElement.textContent = reviewData;
                 reviewsContainer.appendChild(reviewElement);
 
-                if (reviewText.toLowerCase().includes("good")) {
+                // Classify each review and update counts
+                if (reviewData.toLowerCase().includes("good")) {
                     goodCount++;
-                } else if (reviewText.toLowerCase().includes("average")) {
+                } else if (reviewData.toLowerCase().includes("average")) {
                     averageCount++;
                 } else {
                     badCount++;
                 }
             });
 
-            document.getElementById('good-count').textContent = `Good Reviews: ${goodCount}`;
-            document.getElementById('average-count').textContent = `Average Reviews: ${averageCount}`;
-            document.getElementById('bad-count').textContent = `Bad Reviews: ${badCount}`;
+            // Update counts in the UI
+            document.getElementById('good-count').textContent = Good Reviews: ${goodCount};
+            document.getElementById('average-count').textContent = Average Reviews: ${averageCount};
+            document.getElementById('bad-count').textContent = Bad Reviews: ${badCount};
         }
 
         // Handling the review submission
         document.getElementById('submit').addEventListener('click', function() {
-            const nameInput = document.getElementById('name');
             const reviewInput = document.getElementById('review');
-            const name = nameInput.value.trim();
             const review = reviewInput.value.trim();
 
             if (review) {
-                addReviewToFirestore(name || "Anonymous", review); // Save the review with name
-                nameInput.value = ''; // Clear the name input field
-                reviewInput.value = ''; // Clear the review input field
+                addReviewToFirestore(review); // Add review to Firestore
+                reviewInput.value = ''; // Clear the input field
             } else {
                 alert("Please enter a review.");
             }
@@ -111,11 +108,8 @@
             document.getElementById('bad-count').textContent = "Bad Reviews: 0";
         });
 
-        fetchReviews(); // Load and display reviews on page load
+        // Load and display reviews on page load
+        fetchReviews();
     </script>
 </body>
 </html>
-
-
-
-
