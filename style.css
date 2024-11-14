@@ -1,6 +1,6 @@
 /* style.css */
 
-/* Ensure html and body take up the full height of the screen */
+/* Ensures html and body take up the full height of the page and centers the content */
 html, body {
     height: 100%;
     margin: 0;
@@ -12,41 +12,41 @@ html, body {
     font-family: Arial, sans-serif;
 }
 
-/* Full screen container to center the content and make it fill the screen */
+/* Container that holds all content */
 .container {
-    width: 90%; /* Increase width to 90% of the screen size */
-    max-width: 1400px;  /* Set a max width to ensure content doesn't get too wide on large screens */
+    width: 80%;
+    max-width: 1200px;
     padding: 40px;
     background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     text-align: center;
-    height: 100vh;  /* Full height of the screen */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    overflow-y: auto;  /* Allow scrolling if content overflows */
+    height: auto;
+    min-height: 90vh;
 }
 
-/* Headings styling */
+/* Main heading */
 h1 {
     color: #333;
-    font-size: 3em; /* Larger font size */
-    margin-bottom: 20px;
+    font-size: 3em;
+    margin-bottom: 30px;
 }
 
 /* Review form styling */
 .review-form {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Increased space between items */
-    margin-bottom: 20px;
+    gap: 20px;
+    margin-bottom: 30px;
 }
 
 .review-form textarea {
     width: 100%;
     padding: 15px;
-    font-size: 1.2em; /* Larger font size */
+    font-size: 1.2em;
     border: 1px solid #ccc;
     border-radius: 5px;
     resize: none;
@@ -55,12 +55,12 @@ h1 {
 
 .review-form button {
     padding: 15px;
-    font-size: 1.2em; /* Larger font size */
+    font-size: 1.2em;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 250px; /* Increased width for buttons */
+    width: 250px;
     margin: 0 auto;
 }
 
@@ -78,14 +78,14 @@ h1 {
     opacity: 0.9;
 }
 
-/* Review counts styling */
+/* Review counts section */
 .counts {
     margin: 30px 0;
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 1.2em; /* Larger font size */
+    font-size: 1.2em;
 }
 
 .counts h2 {
@@ -99,18 +99,18 @@ h1 {
     color: #666;
 }
 
-/* Reviews section styling */
+/* Reviews display section */
 .reviews {
     margin-top: 30px;
     padding: 20px;
     border-top: 1px solid #e0e0e0;
     text-align: left;
-    max-height: 400px;  /* Limit the reviews container height */
-    overflow-y: auto;   /* Allow scrolling for reviews */
-    font-size: 1.2em; /* Larger font size for review text */
+    max-height: 400px;
+    overflow-y: auto;
+    font-size: 1.2em;
 }
 
-/* Review styles based on classification */
+/* Styling individual reviews based on classification */
 .reviews .good {
     background-color: #e6ffe6;
     border-left: 5px solid #4CAF50;
