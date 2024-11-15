@@ -1,148 +1,113 @@
-/* General styling */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Align to the top of the page */
-    background-color: #f4f4f9;
-    font-family: Arial, sans-serif;
-}
-
-/* Container to center the content */
-.container {
-    width: 90%;
-    max-width: 1200px;
-    padding: 40px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    text-align: center;
-    min-height: 80vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* Align content to the top */
-    overflow-y: auto;
-}
-
-/* Title styling */
-h1 {
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #74ebd5, #acb6e5);
     color: #333;
-    font-size: 2.5em;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #fff;
     margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* Review form styling */
-.review-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-bottom: 30px;
-}
-
-.review-form textarea {
-    width: 100%;
-    padding: 15px;
-    font-size: 1.1em;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    resize: none;
-    height: 120px;
-}
-
-.review-form button {
-    padding: 15px;
-    font-size: 1.2em;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 250px;
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 700px;
     margin: 0 auto;
 }
 
-#submit {
-    background-color: #4CAF50;
-    color: white;
+textarea {
+    width: 100%;
+    height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-#clear {
-    background-color: #d9534f;
-    color: white;
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.review-form button:hover {
-    opacity: 0.9;
+button#submit {
+    background-color: #28a745;
+    color: #fff;
 }
 
-/* Review counts styling */
+button#submit:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+button#clear {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+button#clear:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+}
+
 .counts {
-    margin: 30px 0;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 1.2em;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.counts h2 {
-    margin: 0;
-    font-size: 1.5em;
-    color: #555;
+.counts span {
+    font-weight: bold;
+    font-size: 16px;
 }
 
-.counts p {
+#reviews {
+    margin-top: 20px;
+}
+
+#reviews p {
     margin: 10px 0;
-    color: #666;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Reviews section styling */
-.reviews {
+.good {
+    background-color: #28a745;
+}
+
+.average {
+    background-color: #ffc107;
+}
+
+.bad {
+    background-color: #dc3545;
+}
+
+footer {
+    text-align: center;
     margin-top: 30px;
-    padding: 20px;
-    border-top: 1px solid #e0e0e0;
-    text-align: left;
-    max-height: 400px;
-    overflow-y: auto;
-    font-size: 1.2em;
+    color: #fff;
+    font-size: 14px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Review styles based on classification */
-.reviews .good {
-    background-color: #e6ffe6;
-    border-left: 5px solid #4CAF50;
-    color: #2e7d32;
-}
-
-.reviews .average {
-    background-color: #fff9e6;
-    border-left: 5px solid #ffc107;
-    color: #b8860b;
-}
-
-.reviews .bad {
-    background-color: #ffe6e6;
-    border-left: 5px solid #d9534f;
-    color: #a94442;
-}
-
-/* Responsive adjustments for smaller screens */
-@media (max-width: 768px) {
-    .container {
-        padding: 20px;
-    }
-
-    h1 {
-        font-size: 2em;
-    }
-
-    .review-form textarea {
-        font-size: 1em;
-    }
-
-    .review-form button {
-        font-size: 1em;
-        width: 100%;
-    }
-}
