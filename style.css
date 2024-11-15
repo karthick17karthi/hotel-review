@@ -115,6 +115,7 @@ button#clear:hover {
     margin: 5px 0;
     border-radius: 5px;
     font-size: 14px;
+    color: #000; /* Changed text color to black */
 }
 
 #reviews p:nth-child(odd) {
