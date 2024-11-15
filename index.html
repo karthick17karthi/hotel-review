@@ -1,109 +1,86 @@
-<script type="module">
-    // Import Firebase and Firestore functions
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js";
-
-    // Firebase configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyCxCHfCbE-cosAvU9oAEaVtU-bUria5FYc",
-        authDomain: "hotel-reviews-ef6e0.firebaseapp.com",
-        projectId: "hotel-reviews-ef6e0",
-        storageBucket: "hotel-reviews-ef6e0.appspot.com",
-        messagingSenderId: "596063870907",
-        appId: "1:596063870907:web:664665d4cd07448685ee9e",
-        measurementId: "G-PDC6GSGDNW"
-    };
-
-    // Initialize Firebase and Firestore
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    // Function to add a review to Firestore
-    async function addReviewToFirestore(review) {
-        try {
-            await addDoc(collection(db, "reviews"), {
-                review: review,
-                timestamp: serverTimestamp()
-            });
-            console.log("Review added successfully!");
-            fetchReviews(); // Refresh the displayed reviews after adding a new one
-        } catch (error) {
-            console.error("Error adding review: ", error);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Reviews</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
         }
-    }
 
-    // Function to fetch and display reviews from Firestore
-    async function fetchReviews() {
-        const querySnapshot = await getDocs(collection(db, "reviews"));
-        const reviewsContainer = document.getElementById('reviews');
-        reviewsContainer.innerHTML = ''; // Clear current reviews
+        .good {
+            color: green;
+        }
 
-        let goodCount = 0, averageCount = 0, badCount = 0;
+        .average {
+            color: orange;
+        }
 
-        // Create containers for good, average, and bad reviews
-        const goodReviewsContainer = document.createElement('div');
-        const averageReviewsContainer = document.createElement('div');
-        const badReviewsContainer = document.createElement('div');
+        .bad {
+            color: red;
+        }
 
-        goodReviewsContainer.innerHTML = '<h3>Good Reviews</h3>';
-        averageReviewsContainer.innerHTML = '<h3>Average Reviews</h3>';
-        badReviewsContainer.innerHTML = '<h3>Bad Reviews</h3>';
+        .counts {
+            margin-bottom: 20px;
+        }
 
-        querySnapshot.forEach((doc) => {
-            const reviewData = doc.data().review;
-            const reviewElement = document.createElement('p');
-            reviewElement.textContent = reviewData;
+        .counts span {
+            margin-right: 15px;
+            font-weight: bold;
+        }
 
-            // Classify each review and append it to the appropriate container
-            if (reviewData.toLowerCase().includes("good")) {
-                goodCount++;
-                goodReviewsContainer.appendChild(reviewElement);
-            } else if (reviewData.toLowerCase().includes("average")) {
-                averageCount++;
-                averageReviewsContainer.appendChild(reviewElement);
-            } else {
-                badCount++;
-                badReviewsContainer.appendChild(reviewElement);
-            }
-        });
+        #reviews {
+            margin-top: 20px;
+        }
 
-        // Append categorized reviews to the main container
-        reviewsContainer.appendChild(goodReviewsContainer);
-        reviewsContainer.appendChild(averageReviewsContainer);
-        reviewsContainer.appendChild(badReviewsContainer);
+        textarea {
+            width: 100%;
+            height: 80px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            padding: 10px;
+        }
 
-        // Update counts in the UI
-        document.getElementById('good-count').textContent = `Good Reviews: ${goodCount}`;
-        document.getElementById('average-count').textContent = `Average Reviews: ${averageCount}`;
-        document.getElementById('bad-count').textContent = `Bad Reviews: ${badCount}`;
-    }
+        button {
+            margin-right: 10px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
 
-    // Ensure DOM elements are accessible after the page loads
-    document.addEventListener("DOMContentLoaded", function() {
-        // Handling the review submission
-        document.getElementById('submit').addEventListener('click', function() {
-            const reviewInput = document.getElementById('review');
-            const review = reviewInput.value.trim();
+        button:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hotel Reviews</h1>
+    <div>
+        <textarea id="review" placeholder="Write your review here..."></textarea><br>
+        <button id="submit">Submit Review</button>
+        <button id="clear">Clear Reviews</button>
+    </div>
 
-            if (review) {
-                addReviewToFirestore(review); // Add review to Firestore
-                reviewInput.value = ''; // Clear the input field
-            } else {
-                alert("Please enter a review.");
-            }
-        });
+    <div class="counts">
+        <span id="good-count">Good Reviews: 0</span>
+        <span id="average-count">Average Reviews: 0</span>
+        <span id="bad-count">Bad Reviews: 0</span>
+    </div>
 
-        // Handling the clear button
-        document.getElementById('clear').addEventListener('click', function() {
-            document.getElementById('reviews').innerHTML = "";
-            document.getElementById('good-count').textContent = "Good Reviews: 0";
-            document.getElementById('average-count').textContent = "Average Reviews: 0";
-            document.getElementById('bad-count').textContent = "Bad Reviews: 0";
-        });
+    <div id="reviews">
+        <!-- Reviews will be dynamically added here -->
+    </div>
 
-        // Load and display reviews on page load
-        fetchReviews();
-    });
-</script>
+    <!-- Firebase JS SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+
+    <!-- Your custom JavaScript -->
+    <script src="path/to/your/javascript.js"></script>
+</body>
+</html>
 
 
