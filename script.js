@@ -84,9 +84,29 @@ document.getElementById('clear').addEventListener('click', function () {
 // Classify the review based on keywords
 function classifyReview(review) {
     const reviewLower = review.toLowerCase();
-    const goodKeywords = ["amazing", "excellent", "fantastic", "great", "love", "delicious", "perfect", "fresh"];
-    const averageKeywords = ["okay", "decent", "average", "fine", "acceptable", "ordinary"];
-    const badKeywords = ["bad", "horrible", "terrible", "disappointing", "rude", "dirty", "slow"];
+    const goodKeywords = ["amazing", "excellent", "fantastic", "great", "love", "delicious", "perfect", "fresh","delicious", "amazing", "fantastic", "tasty", "excellent", "fresh", "mouth-watering", "scrumptious", "outstanding", "perfect",
+"flavorful", "superb", "delectable", "exquisite", "satisfying", "top-notch", "best ever", "highly recommended", "incredible", "wonderful",
+"generous portions", "rich", "well-seasoned", "heavenly", "premium", "quality", "authentic", "gourmet", "unforgettable", "superb presentation",
+"tempting", "divine", "very fresh", "clean flavors", "perfectly cooked", "absolutely amazing", "exceptional", "worth every penny", "impressive", "mouthwatering",
+"out of this world", "excellent service", "perfectly seasoned", "signature dish", "deliciously prepared", "beautifully plated", "excellent quality", "tender", "crispy", "flaky",
+"luxurious", "creative", "beautifully crafted", "divine flavors", "tender and juicy", "fantastic variety", "classic dishes done right", "luxury dining", "rich textures", "top-tier",
+"mouthwatering aroma", "full of flavor", "perfectly balanced", "comforting", "enjoyable", "great selection", "very satisfying", "perfect pairing", "unbeatable flavor", "amazing texture",
+"very filling", "beautifully arranged", "beyond expectations", "flawless", "impeccable", "restaurant quality", "soothing", "delightful", "flavor-packed", "classic flavors"];
+    const averageKeywords = ["okay", "decent", "average", "fine", "acceptable", "ordinary","okay", "decent", "fine", "good enough", "average", "not bad", "acceptable", "ordinary", "mediocre", "satisfactory",
+"standard", "just okay", "nothing special", "average taste", "acceptable quality", "nothing to write home about", "okay flavor", "could be better", "fair", "passable",
+"fairly good", "average experience", "nothing extraordinary", "decent choice", "tastes fine", "middle of the road", "nothing spectacular", "adequate", "so-so", "reasonable",
+"standard fare", "so-so quality", "common", "not terrible", "generally fine", "consistent", "easy to enjoy", "safe choice", "works well", "moderate taste",
+"could use improvement", "just fine", "unremarkable", "good enough but forgettable", "mostly okay", "non-offensive", "inconsistent", "mediocre quality", "average preparation", "mediocre selection",
+"decent enough to fill you up", "passable quality", "average seasoning", "okay portion size", "quite bland", "underwhelming", "nothing special here", "just filling", "okay dish", "good for the price",
+"nothing too exciting", "just alright", "okay flavor combination", "standard menu", "no complaints", "a little dry", "too salty", "ok portions", "average presentation", "safe bet"];
+    const badKeywords = ["bad", "horrible", "terrible", "disappointing", "rude", "dirty", "slow","terrible", "awful", "disappointing", "bland", "gross", "overcooked", "tasteless", "cold", "burnt", "inedible",
+"undercooked", "disgusting", "horrible", "unappetizing", "bad quality", "soggy", "overpriced", "unpleasant", "stale", "old",
+"uncooked", "unseasoned", "rancid", "dry", "too greasy", "too salty", "too sweet", "underwhelming", "not fresh", "overwhelming",
+"unfresh", "mushy", "too chewy", "hard", "too bitter", "sour", "unpalatable", "ruined dish", "bland flavor", "not tasty",
+"poorly prepared", "uncooked meat", "terrible texture", "uninspired", "not what I expected", "not flavorful", "overwhelmingly spicy", "a disaster", "too salty",
+"unhealthy", "disappointing experience", "flat taste", "very greasy", "too much fat", "cold food", "stale bread", "unbalanced flavors", "inconsistent", "soggy fries",
+"unrealistic expectations", "inedible meal", "flavorless", "unappealing", "messy", "too much seasoning", "overly fatty", "too tough", "inconsistent taste", "badly burnt",
+"poorly presented", "not cooked right", "not fresh ingredients", "unappetizing dish", "not edible", "sour taste", "not worth the price", "lack of flavor", "disgraceful", "just awful"];
 
     if (goodKeywords.some(word => reviewLower.includes(word))) {
         goodReviews.push(review);
